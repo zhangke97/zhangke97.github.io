@@ -1,78 +1,60 @@
 html {
-  -ms-text-size-adjust: 100%;
-}
+  -ms-text-size-adjust: 100%; }
 
 article, aside, footer, header, nav, section {
-  display: block;
-}
+  display: block; }
 
 figcaption, figure, main {
-  display: block;
-}
+  display: block; }
 
 figure {
-  margin: 1em 40px;
-}
+  margin: 1em 40px; }
 
 hr {
-  overflow: visible;
-}
+  overflow: visible; }
 
 a {
   background-color: transparent;
-  -webkit-text-decoration-skip: object;
-}
+  -webkit-text-decoration-skip: object; }
 
 mark {
   background-color: #ff0;
-  color: #000;
-}
+  color: #000; }
 
 audio, video {
-  display: inline-block;
-}
+  display: inline-block; }
 
 img {
-  border-style: none;
-}
+  border-style: none; }
 
 svg:not(:root) {
-  overflow: hidden;
-}
+  overflow: hidden; }
 
 button, input {
-  overflow: visible;
-}
+  overflow: visible; }
 
 button, select {
-  text-transform: none;
-}
+  text-transform: none; }
 
 legend {
   box-sizing: border-box;
   color: inherit;
   display: table;
   max-width: 100%;
-  white-space: normal;
-}
+  white-space: normal; }
 
 progress {
-  display: inline-block;
-}
+  display: inline-block; }
 
 textarea {
-  overflow: auto;
-}
+  overflow: auto; }
 
 [type="checkbox"], [type="radio"] {
   box-sizing: border-box;
-  padding: 0;
-}
+  padding: 0; }
 
 details, menu {
-  display: list-item;
-}
+  display: list-item; }
 
 canvas {
-  display: inline-block;
-}
+  display: inline-block; }
