@@ -90,7 +90,7 @@
 <meta name="description" content="本文部分（其实是绝大部分）代码来自 邓昭宇  : 如何用C语言做一个五子棋（Linux）已私信征得作者本人同意
 
 ​    他们说初学C的都要写过五子棋或者贪吃蛇才算过关，说来惭愧，接触C都一年了也没有写过完整像样的东西（至少c没有）。逛知乎的时候看到了这个五子棋，便试着打了下来。Linux到macOS改动不是很多。。虽然也费了点劲，还是因为自己积累不够吧。
-​    Talk is chea">
+​    Talk is cheap">
 <meta property="og:type" content="article">
 <meta property="og:title" content="C/C++  Mac上的五子棋🤔">
 <meta property="og:url" content="http://yoursite.com/2017/08/12/五子棋/index.html">
@@ -98,18 +98,18 @@
 <meta property="og:description" content="本文部分（其实是绝大部分）代码来自 邓昭宇  : 如何用C语言做一个五子棋（Linux）已私信征得作者本人同意
 
 ​    他们说初学C的都要写过五子棋或者贪吃蛇才算过关，说来惭愧，接触C都一年了也没有写过完整像样的东西（至少c没有）。逛知乎的时候看到了这个五子棋，便试着打了下来。Linux到macOS改动不是很多。。虽然也费了点劲，还是因为自己积累不够吧。
-​    Talk is chea">
-<meta property="og:image" content="http://yoursite.com/Users/zhangkemac/blog/五子棋/封面.png">
-<meta property="og:image" content="http://yoursite.com/Users/zhangkemac/blog/五子棋/棋盘.png">
-<meta property="og:image" content="http://yoursite.com/Users/zhangkemac/Desktop/笔芯.jpg">
-<meta property="og:updated_time" content="2017-08-13T07:31:40.000Z">
+​    Talk is cheap">
+<meta property="og:image" content="http://yoursite.com/img/surface.png">
+<meta property="og:image" content="http://yoursite.com/img/chessboard.png">
+<meta property="og:image" content="http://yoursite.com/img/heart.png">
+<meta property="og:updated_time" content="2017-08-13T11:00:25.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="C/C++  Mac上的五子棋🤔">
 <meta name="twitter:description" content="本文部分（其实是绝大部分）代码来自 邓昭宇  : 如何用C语言做一个五子棋（Linux）已私信征得作者本人同意
 
 ​    他们说初学C的都要写过五子棋或者贪吃蛇才算过关，说来惭愧，接触C都一年了也没有写过完整像样的东西（至少c没有）。逛知乎的时候看到了这个五子棋，便试着打了下来。Linux到macOS改动不是很多。。虽然也费了点劲，还是因为自己积累不够吧。
-​    Talk is chea">
-<meta name="twitter:image" content="http://yoursite.com/Users/zhangkemac/blog/五子棋/封面.png">
+​    Talk is cheap">
+<meta name="twitter:image" content="http://yoursite.com/img/surface.png">
 
 
 
@@ -378,7 +378,7 @@
       
 
       
-        <p> <img src="/Users/zhangkemac/blog/五子棋/封面.png" alt="封面"></p>
+        <p><img src="/img/surface.png" alt="surface"></p>
 <h4 id="本文部分（其实是绝大部分）代码来自-邓昭宇-如何用C语言做一个五子棋（Linux）"><a href="#本文部分（其实是绝大部分）代码来自-邓昭宇-如何用C语言做一个五子棋（Linux）" class="headerlink" title="本文部分（其实是绝大部分）代码来自 邓昭宇  : 如何用C语言做一个五子棋（Linux）"></a>本文部分（其实是绝大部分）代码来自 <a href="https://www.zhihu.com/people/deng-zhao-yu-32-85/answers" target="_blank" rel="external">邓昭宇</a>  : <a href="https://zhuanlan.zhihu.com/p/27771346?group_id=877204114176638976" target="_blank" rel="external">如何用C语言做一个五子棋（Linux）</a></h4><p>已私信征得作者本人同意</p>
 <hr>
 <p>​    他们说初学C的都要写过五子棋或者贪吃蛇才算过关，说来惭愧，接触C都一年了也没有写过完整像样的东西（至少c没有）。逛知乎的时候看到了这个五子棋，便试着打了下来。Linux到macOS改动不是很多。。虽然也费了点劲，还是因为自己积累不够吧。</p>
@@ -393,7 +393,7 @@
 <p>​    <u>这里出现了一个turn的数字，希望记住白棋对应的 turn 是 -1 ，而黑棋是  1，这个在最后判断时会很重要。</u></p>
 <p>​    关于棋子的选择，我觉得在gcc的编译里用实心的图案实在是容易眼花（我就这么输给了上小学的弟弟），所以我挑选了◎和◉作为棋子，这只是权宜之策，希望我以后能找到方法改变棋子的颜色吧。</p>
 <p>​    后面几行应该不难看出来，是在画棋盘的边框和分界线。</p>
-<p>​    放一张棋盘的图。     <img src="/Users/zhangkemac/blog/五子棋/棋盘.png" alt="棋盘"></p>
+<p>​    放一张棋盘的图。     <img src="/img/chessboard.png" alt="chessboard"></p>
 <p>​    上main函数<strong>（千万不要写成mian，不然可能会多花一天的时间）</strong></p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">int</span> s;</div><div class="line">    envir();  <span class="comment">//构建棋盘</span></div><div class="line">    s = Icon(); <span class="comment">//运行游戏</span></div><div class="line">    </div><div class="line">    <span class="keyword">if</span>(s)&#123;<span class="comment">//由turn的取值决定赢家</span></div><div class="line">        <span class="keyword">if</span>(turn == <span class="number">1</span>)</div><div class="line">            <span class="built_in">printf</span>(<span class="string">"\n-----White Won-----\n"</span>);</div><div class="line">        <span class="keyword">else</span></div><div class="line">            <span class="built_in">printf</span>(<span class="string">"\n-----Black Won-----\n"</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">else</span></div><div class="line">        <span class="built_in">printf</span>(<span class="string">"\n-----Tied-----\n"</span>);</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>​    函数主体很简单，最后用turn的取值决定赢家，这个取值非常巧妙，在后面的函数里会提到。</p>
@@ -412,13 +412,12 @@
 <p>​    这段代码用了穷举的判断方式，步骤多但全面，其中的很多细节想不清楚非常容易出错，值得注意。</p>
 <p>​    原代码在最后无<code>return 0</code>的操作，我觉得还是加上为妙。</p>
 <p>​    关于使用方向键会终止游戏的问题，我会根据原作者的下一篇博客进行修改。</p>
-<p>​    其实还有一个getch()函数，它本来是<code>conio.h</code>的一个非标准的不回显函数，在Windows上没有问题，但在Mac的Xcode上移植性不是很好，所以和原作者一样，直接构建该函数。</p>
+<p>​    其实还有一个getch()函数，它本来是   <code>conio.h</code>的一个非标准的不回显函数，在Windows上没有问题，但在Mac的Xcode上移植性不是很好，所以和原作者一样，直接构建该函数。</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">getch</span><span class="params">()</span></span>&#123;</div><div class="line">    <span class="keyword">struct</span> termios tm,tm_old;</div><div class="line">    <span class="keyword">int</span> fd = <span class="number">0</span>,ch;</div><div class="line">    <span class="keyword">if</span>(tcgetattr(fd,&amp;tm) &lt; <span class="number">0</span>)</div><div class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</div><div class="line">    tm_old = tm;</div><div class="line">    cfmakeraw(&amp;tm);</div><div class="line">    <span class="keyword">if</span>(tcsetattr(fd,TCSANOW,&amp;tm) &lt; <span class="number">0</span>)</div><div class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</div><div class="line">    ch = getchar();</div><div class="line">    <span class="keyword">if</span>(tcsetattr(fd,TCSANOW,&amp;tm_old) &lt; <span class="number">0</span>)</div><div class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</div><div class="line">    <span class="keyword">return</span> ch;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>​    这个函数我并不理解，姑且放之，再等我继续学习吧。</p>
 <p>​    突然发现，这可能是第一篇关于学习的文章，太惨了，希望以后more and more.</p>
 <p>​    </p>
-<p>​    笔芯！！！</p>
-<p>​    <img src="/Users/zhangkemac/Desktop/笔芯.jpg" alt="笔芯"></p>
+<p>​    笔芯！！！<img src="/img/heart.png" alt="heart"></p>
 
       
     </div>
