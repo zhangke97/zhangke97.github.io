@@ -1,0 +1,925 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="C/C++," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="本文部分（其实是绝大部分）代码来自 邓昭宇  : 如何用C语言做一个五子棋（Linux）已私信征得作者本人同意
+
+​    他们说初学C的都要写过五子棋或者贪吃蛇才算过关，说来惭愧，接触C都一年了也没有写过完整像样的东西（至少c没有）。逛知乎的时候看到了这个五子棋，便试着打了下来。Linux到macOS改动不是很多。。虽然也费了点劲，还是因为自己积累不够吧。
+​    Talk is chea">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C/C++  Mac上的五子棋🤔">
+<meta property="og:url" content="http://yoursite.com/2017/08/12/五子棋/index.html">
+<meta property="og:site_name" content="ZiWeiYuan">
+<meta property="og:description" content="本文部分（其实是绝大部分）代码来自 邓昭宇  : 如何用C语言做一个五子棋（Linux）已私信征得作者本人同意
+
+​    他们说初学C的都要写过五子棋或者贪吃蛇才算过关，说来惭愧，接触C都一年了也没有写过完整像样的东西（至少c没有）。逛知乎的时候看到了这个五子棋，便试着打了下来。Linux到macOS改动不是很多。。虽然也费了点劲，还是因为自己积累不够吧。
+​    Talk is chea">
+<meta property="og:image" content="http://yoursite.com/Users/zhangkemac/blog/五子棋/封面.png">
+<meta property="og:image" content="http://yoursite.com/Users/zhangkemac/blog/五子棋/棋盘.png">
+<meta property="og:image" content="http://yoursite.com/Users/zhangkemac/Desktop/笔芯.jpg">
+<meta property="og:updated_time" content="2017-08-13T07:31:40.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="C/C++  Mac上的五子棋🤔">
+<meta name="twitter:description" content="本文部分（其实是绝大部分）代码来自 邓昭宇  : 如何用C语言做一个五子棋（Linux）已私信征得作者本人同意
+
+​    他们说初学C的都要写过五子棋或者贪吃蛇才算过关，说来惭愧，接触C都一年了也没有写过完整像样的东西（至少c没有）。逛知乎的时候看到了这个五子棋，便试着打了下来。Linux到macOS改动不是很多。。虽然也费了点劲，还是因为自己积累不够吧。
+​    Talk is chea">
+<meta name="twitter:image" content="http://yoursite.com/Users/zhangkemac/blog/五子棋/封面.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/08/12/五子棋/"/>
+
+
+
+
+
+  <title> C/C++  Mac上的五子棋🤔 | ZiWeiYuan </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ZiWeiYuan</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocapitalize="off" autocomplete="off" autocorrect="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/12/五子棋/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Janck">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/bigcat.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ZiWeiYuan">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                C/C++  Mac上的五子棋🤔
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-12T08:43:19+08:00">
+                2017-08-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p> <img src="/Users/zhangkemac/blog/五子棋/封面.png" alt="封面"></p>
+<h4 id="本文部分（其实是绝大部分）代码来自-邓昭宇-如何用C语言做一个五子棋（Linux）"><a href="#本文部分（其实是绝大部分）代码来自-邓昭宇-如何用C语言做一个五子棋（Linux）" class="headerlink" title="本文部分（其实是绝大部分）代码来自 邓昭宇  : 如何用C语言做一个五子棋（Linux）"></a>本文部分（其实是绝大部分）代码来自 <a href="https://www.zhihu.com/people/deng-zhao-yu-32-85/answers" target="_blank" rel="external">邓昭宇</a>  : <a href="https://zhuanlan.zhihu.com/p/27771346?group_id=877204114176638976" target="_blank" rel="external">如何用C语言做一个五子棋（Linux）</a></h4><p>已私信征得作者本人同意</p>
+<hr>
+<p>​    他们说初学C的都要写过五子棋或者贪吃蛇才算过关，说来惭愧，接触C都一年了也没有写过完整像样的东西（至少c没有）。逛知乎的时候看到了这个五子棋，便试着打了下来。Linux到macOS改动不是很多。。虽然也费了点劲，还是因为自己积累不够吧。</p>
+<p>​    Talk is cheap.</p>
+<a id="more"></a>
+<p>​    首先是头文件、宏定义以及相应的函数声明</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;cstdio&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;cstdlib&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;cstring&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;termios.h&gt;</span></span></div><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> CHESS    5    <span class="comment">//棋子数</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> CELLSLEN 16    <span class="comment">//除去边界的空格数</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> BOARD (CELLSLEN*2+1) <span class="comment">//边界长度</span></span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">envir</span><span class="params">()</span></span>; <span class="comment">//初始化棋盘构建</span></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">print</span><span class="params">()</span></span>; <span class="comment">//棋盘显示</span></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">Icon</span><span class="params">()</span></span>;   <span class="comment">//光标移动和摆放棋子</span></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">checkchess</span><span class="params">()</span></span>; <span class="comment">//检查一方是否胜利</span></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">getch</span><span class="params">()</span></span>;  <span class="comment">//终端的键盘操作</span></div></pre></td></tr></table></figure>
+<p>​    关于  <strong>termios.h</strong> 库，原代码是<code>#include&lt;termio.h&gt;</code>，而在Xcode上无限报错，我也没有能力分辨两者的区别，但至少在Xcode这里加上 s 是没有问题的。</p>
+<p>​    CELLSLEN直接影响棋盘大小，根据个人调整，我更喜欢16 x 16 的棋盘。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> <span class="keyword">char</span>* board[BOARD][BOARD] = &#123;<span class="number">0</span>&#125;;<span class="comment">//相应位置的棋子</span></div><div class="line"><span class="keyword">int</span> check[CELLSLEN][CELLSLEN] = &#123;<span class="number">0</span>&#125;;  <span class="comment">//检测该位置是否有棋子</span></div><div class="line"><span class="keyword">int</span> turn = <span class="number">-1</span>;          <span class="comment">//  -1 = white, 1 = black , 白棋先走</span></div><div class="line"><span class="keyword">int</span> row = <span class="number">1</span>, col = <span class="number">1</span>, con;</div><div class="line"></div><div class="line"><span class="keyword">const</span> <span class="keyword">char</span> * BLACK = <span class="string">"◎"</span>, * WHITE = <span class="string">"◉"</span>, * POS = <span class="string">"¤"</span>;<span class="comment">//¤ 定位光标</span></div><div class="line"></div><div class="line"><span class="keyword">const</span> <span class="keyword">char</span> * LT   =<span class="string">"┌"</span>,  * TOP   =<span class="string">"┬"</span>,   * RT   =<span class="string">"┐"</span>;</div><div class="line"></div><div class="line"><span class="keyword">const</span> <span class="keyword">char</span> * LEFT =<span class="string">"├"</span>,  * CENTER=<span class="string">"┼"</span>,   * RIGHT=<span class="string">"┤"</span>;</div><div class="line"></div><div class="line"><span class="keyword">const</span> <span class="keyword">char</span> * LF   =<span class="string">"└"</span>,  * FOOT  =<span class="string">"┴"</span>,   * RF   =<span class="string">"┘"</span>;</div><div class="line"></div><div class="line"><span class="keyword">const</span> <span class="keyword">char</span> * SPACE=<span class="string">" "</span>;</div></pre></td></tr></table></figure>
+<p>​    以上代码声明了两个数组，board用来确定棋盘上的某个点，而check检测该位置的内容。</p>
+<p>​    <u>这里出现了一个turn的数字，希望记住白棋对应的 turn 是 -1 ，而黑棋是  1，这个在最后判断时会很重要。</u></p>
+<p>​    关于棋子的选择，我觉得在gcc的编译里用实心的图案实在是容易眼花（我就这么输给了上小学的弟弟），所以我挑选了◎和◉作为棋子，这只是权宜之策，希望我以后能找到方法改变棋子的颜色吧。</p>
+<p>​    后面几行应该不难看出来，是在画棋盘的边框和分界线。</p>
+<p>​    放一张棋盘的图。     <img src="/Users/zhangkemac/blog/五子棋/棋盘.png" alt="棋盘"></p>
+<p>​    上main函数<strong>（千万不要写成mian，不然可能会多花一天的时间）</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">int</span> s;</div><div class="line">    envir();  <span class="comment">//构建棋盘</span></div><div class="line">    s = Icon(); <span class="comment">//运行游戏</span></div><div class="line">    </div><div class="line">    <span class="keyword">if</span>(s)&#123;<span class="comment">//由turn的取值决定赢家</span></div><div class="line">        <span class="keyword">if</span>(turn == <span class="number">1</span>)</div><div class="line">            <span class="built_in">printf</span>(<span class="string">"\n-----White Won-----\n"</span>);</div><div class="line">        <span class="keyword">else</span></div><div class="line">            <span class="built_in">printf</span>(<span class="string">"\n-----Black Won-----\n"</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">else</span></div><div class="line">        <span class="built_in">printf</span>(<span class="string">"\n-----Tied-----\n"</span>);</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>​    函数主体很简单，最后用turn的取值决定赢家，这个取值非常巧妙，在后面的函数里会提到。</p>
+<p>​    </p>
+<p>​    构建和打印棋盘。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">envir</span><span class="params">()</span></span>&#123;<span class="comment">//构建棋盘</span></div><div class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; BOARD; j++)</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> k = <span class="number">0</span>; k &lt; BOARD; k++)</div><div class="line">            board[j][k] = SPACE;  <span class="comment">//棋盘初始化，全部置为空格</span></div><div class="line">    </div><div class="line">    board[<span class="number">0</span>][<span class="number">0</span>] = LT;</div><div class="line">    board[<span class="number">0</span>][BOARD<span class="number">-1</span>] = RT;</div><div class="line">    board[BOARD<span class="number">-1</span>][<span class="number">0</span>] = LF;</div><div class="line">    board[BOARD<span class="number">-1</span>][BOARD<span class="number">-1</span>] = RF;</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">2</span>; i &lt; BOARD<span class="number">-2</span>; i+=<span class="number">2</span>)&#123;<span class="comment">//   +=2 的目的是留有空格</span></div><div class="line">        board[<span class="number">0</span>][i] = TOP;</div><div class="line">        board[BOARD<span class="number">-1</span>][i] = FOOT;</div><div class="line">        board[i][<span class="number">0</span>] = LEFT;</div><div class="line">        board[i][BOARD<span class="number">-1</span>] = RIGHT;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">2</span>; j &lt; BOARD<span class="number">-2</span>; j+=<span class="number">2</span>)</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> k = <span class="number">2</span>; k &lt; BOARD<span class="number">-2</span>; k+=<span class="number">2</span>)</div><div class="line">            board[j][k] = CENTER;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>​    构建棋盘的步骤：先全部置为空格，然后在对应位置填入边框等符号。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">print</span><span class="params">()</span></span>&#123; <span class="comment">//打印棋盘</span></div><div class="line">    system(<span class="string">"clear"</span>);  <span class="comment">//其实只是把之前的内容拉上到看不到的地方</span></div><div class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; BOARD; j++)&#123;  <span class="comment">//列</span></div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> k = <span class="number">0</span>; k &lt; BOARD; k++)  <span class="comment">//行</span></div><div class="line">            <span class="built_in">printf</span>(<span class="string">"%s "</span>,board[j][k]);</div><div class="line">        <span class="built_in">putchar</span>(<span class="string">'\n'</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span>(turn == <span class="number">1</span>)<span class="comment">//当前的选手及当前位置</span></div><div class="line">        <span class="built_in">printf</span>(<span class="string">"  %s  Black turn\n"</span>,BLACK);</div><div class="line">    <span class="keyword">else</span></div><div class="line">        <span class="built_in">printf</span>(<span class="string">"  %s  White turn\n"</span>,WHITE);</div><div class="line">    <span class="built_in">printf</span>(<span class="string">"    POS(%d,%d)\n"</span>,(row+<span class="number">1</span>)/<span class="number">2</span>,(col+<span class="number">1</span>)/<span class="number">2</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>​    在下面的Icon函数里将会有一个while循环，不断用print()函数刷新棋盘，直到游戏结束。游戏里默认白棋先走，对应的turn为-1，每走一步交换一次turn的值，当游戏因一方胜出而结束时，我们根据turn的值来确定赢家。<strong>由于最后一步走完时交换了turn的值，所以要以对应的turn倒过来判断，若turn为 1，则说明上一步为白棋，反之为黑棋。</strong></p>
+<p>​    </p>
+<p>​    还有一个判断函数，判断是否有一方胜利。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">checkchess</span><span class="params">()</span></span>&#123; </div><div class="line">    <span class="keyword">bool</span> judge;</div><div class="line">    <span class="keyword">int</span> pres;</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; CELLSLEN; j++)  <span class="comment">//按列行检查</span></div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> k = <span class="number">0</span>; k &lt; CELLSLEN; k++)</div><div class="line">            <span class="keyword">if</span>(check[j][k] != <span class="number">0</span>)&#123;  <span class="comment">//有棋子，检测</span></div><div class="line">                pres = check[j][k];</div><div class="line">                judge = <span class="literal">true</span>;</div><div class="line">                <span class="keyword">if</span>(j &lt;= CELLSLEN - CHESS &amp;&amp; k &lt;= CELLSLEN - CHESS)&#123;</div><div class="line">                    <span class="keyword">for</span>(<span class="keyword">int</span> l = <span class="number">1</span>; l &lt; CHESS ; l++)</div><div class="line">                        <span class="keyword">if</span>(check[j+l][k+l] != pres)   <span class="comment">//右斜不成功</span></div><div class="line">                            judge = <span class="literal">false</span>;</div><div class="line">                    <span class="keyword">if</span>(judge == <span class="literal">true</span>)</div><div class="line">                        <span class="keyword">return</span> <span class="number">1</span>;</div><div class="line">                &#125;</div><div class="line">                judge = <span class="literal">true</span>;</div><div class="line">                <span class="keyword">if</span>(j &lt;= CELLSLEN - CHESS &amp;&amp; k &gt;= CHESS - <span class="number">1</span>)&#123;</div><div class="line">                    <span class="keyword">for</span>(<span class="keyword">int</span> l = <span class="number">1</span>; l &lt; CHESS; l++)</div><div class="line">                        <span class="keyword">if</span>(check[j+l][k-l] != pres)   <span class="comment">//左斜不成功</span></div><div class="line">                            judge = <span class="literal">false</span>;</div><div class="line">                    <span class="keyword">if</span>(judge == <span class="literal">true</span>)</div><div class="line">                        <span class="keyword">return</span> <span class="number">1</span>;</div><div class="line">                &#125;</div><div class="line">                judge = <span class="literal">true</span>;</div><div class="line">                <span class="keyword">if</span>(k &lt;= CELLSLEN - CHESS)&#123;</div><div class="line">                    <span class="keyword">for</span>(<span class="keyword">int</span> l = <span class="number">1</span>; l &lt; CHESS; l++)</div><div class="line">                        <span class="keyword">if</span>(check[j][k+l] != pres)     <span class="comment">//垂直不成功</span></div><div class="line">                            judge = <span class="literal">false</span>;</div><div class="line">                    <span class="keyword">if</span>(judge == <span class="literal">true</span>)</div><div class="line">                        <span class="keyword">return</span> <span class="number">1</span>;</div><div class="line">                &#125;</div><div class="line">                judge = <span class="literal">true</span>;</div><div class="line">                <span class="keyword">if</span>(j &lt;= CELLSLEN - CHESS)&#123;</div><div class="line">                    <span class="keyword">for</span>(<span class="keyword">int</span> l = <span class="number">1</span>; l &lt; CHESS; l++)</div><div class="line">                        <span class="keyword">if</span>(check[j+l][k] != pres)     <span class="comment">//水平不成功</span></div><div class="line">                            judge = <span class="literal">false</span>;</div><div class="line">                    <span class="keyword">if</span>(judge == <span class="literal">true</span>)</div><div class="line">                        <span class="keyword">return</span> <span class="number">1</span>; </div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>​    返回值为1则有胜利，0则没有。</p>
+<p>​    最后是游戏主体Icon函数。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">define</span> NOTCHESS board[row][col] != BLACK &amp;&amp; board[row][col] != WHITE</span></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">Icon</span><span class="params">()</span> <span class="comment">//游戏主体</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">int</span> count = <span class="number">0</span>;</div><div class="line">    board[row][col] = POS; <span class="comment">//坐标点</span></div><div class="line">    print();  <span class="comment">//先打印一次棋盘</span></div><div class="line">    <span class="keyword">while</span>((con = getch()) != <span class="number">0x1b</span>) <span class="comment">//Esc键，事实证明方向键也可以终止游戏</span></div><div class="line">    &#123;</div><div class="line">        <span class="keyword">if</span>(con == <span class="string">'w'</span> || con == <span class="string">'s'</span> || con == <span class="string">'a'</span> || con == <span class="string">'d'</span> || con == <span class="string">' '</span>)</div><div class="line">        &#123; <span class="comment">//用  w a s d 控制方向</span></div><div class="line">            <span class="keyword">if</span>(con != <span class="string">' '</span> &amp;&amp; board[row][col] == POS &amp;&amp; NOTCHESS)</div><div class="line">                board[row][col] = SPACE;</div><div class="line">            <span class="keyword">switch</span>(con)</div><div class="line">            &#123;</div><div class="line">                <span class="keyword">case</span> <span class="string">'w'</span>:</div><div class="line">                    <span class="keyword">if</span>(row &gt; <span class="number">1</span>)   row -= <span class="number">2</span>;</div><div class="line">                    <span class="keyword">if</span>(NOTCHESS)  board[row][col] = POS;</div><div class="line">                    <span class="keyword">break</span>;</div><div class="line">                <span class="keyword">case</span> <span class="string">'s'</span>:</div><div class="line">                    <span class="keyword">if</span>(row &lt; BOARD - <span class="number">2</span>)   row += <span class="number">2</span>;</div><div class="line">                    <span class="keyword">if</span>(NOTCHESS)  board[row][col] = POS;</div><div class="line">                    <span class="keyword">break</span>;</div><div class="line">                <span class="keyword">case</span> <span class="string">'a'</span>:</div><div class="line">                    <span class="keyword">if</span>(col &gt; <span class="number">1</span>)   col -= <span class="number">2</span>;</div><div class="line">                    <span class="keyword">if</span>(NOTCHESS)  board[row][col] = POS;</div><div class="line">                    <span class="keyword">break</span>;</div><div class="line">                <span class="keyword">case</span> <span class="string">'d'</span>:</div><div class="line">                    <span class="keyword">if</span>(col &lt; BOARD - <span class="number">2</span>)   col += <span class="number">2</span>;</div><div class="line">                    <span class="keyword">if</span>(NOTCHESS)  board[row][col] = POS;</div><div class="line">                    <span class="keyword">break</span>;</div><div class="line">                <span class="keyword">case</span> <span class="string">' '</span>:&#123;  <span class="comment">//落子</span></div><div class="line">                    <span class="keyword">if</span>(board[row][col] == BLACK || board[row][col] == WHITE)</div><div class="line">                        <span class="keyword">break</span>;</div><div class="line">                    <span class="keyword">else</span>&#123;</div><div class="line">                        <span class="keyword">if</span>(turn == <span class="number">-1</span>)&#123;  <span class="comment">//白棋</span></div><div class="line">                            board[row][col] = WHITE;</div><div class="line">                            check[(row<span class="number">-1</span>)/<span class="number">2</span>][(col<span class="number">-1</span>)/<span class="number">2</span>] = <span class="number">-1</span>;</div><div class="line">                        &#125;</div><div class="line">                        <span class="keyword">else</span> <span class="keyword">if</span>(turn == <span class="number">1</span>)&#123;  <span class="comment">//黑棋</span></div><div class="line">                            board[row][col] = BLACK;</div><div class="line">                            check[(row<span class="number">-1</span>)/<span class="number">2</span>][(col<span class="number">-1</span>)/<span class="number">2</span>] = <span class="number">1</span> ;</div><div class="line">                        &#125;</div><div class="line">                        turn = -turn;</div><div class="line">                        count++; <span class="comment">//回合记录</span></div><div class="line">                    &#125;    </div><div class="line">                    <span class="keyword">break</span>;</div><div class="line">                &#125;</div><div class="line">                <span class="keyword">default</span> : <span class="keyword">break</span>;	</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        print(); <span class="comment">//不断刷新棋盘</span></div><div class="line">        <span class="keyword">if</span>(count == CELLSLEN * CELLSLEN)  <span class="comment">//棋盘被占满，游戏结束</span></div><div class="line">            <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">        <span class="keyword">if</span>(checkchess()) <span class="comment">//有一方胜利，游戏结束</span></div><div class="line">            <span class="keyword">return</span> <span class="number">1</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>; <span class="comment">//这里有改动</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>​    这段代码用了穷举的判断方式，步骤多但全面，其中的很多细节想不清楚非常容易出错，值得注意。</p>
+<p>​    原代码在最后无<code>return 0</code>的操作，我觉得还是加上为妙。</p>
+<p>​    关于使用方向键会终止游戏的问题，我会根据原作者的下一篇博客进行修改。</p>
+<p>​    其实还有一个getch()函数，它本来是<code>conio.h</code>的一个非标准的不回显函数，在Windows上没有问题，但在Mac的Xcode上移植性不是很好，所以和原作者一样，直接构建该函数。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">getch</span><span class="params">()</span></span>&#123;</div><div class="line">    <span class="keyword">struct</span> termios tm,tm_old;</div><div class="line">    <span class="keyword">int</span> fd = <span class="number">0</span>,ch;</div><div class="line">    <span class="keyword">if</span>(tcgetattr(fd,&amp;tm) &lt; <span class="number">0</span>)</div><div class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</div><div class="line">    tm_old = tm;</div><div class="line">    cfmakeraw(&amp;tm);</div><div class="line">    <span class="keyword">if</span>(tcsetattr(fd,TCSANOW,&amp;tm) &lt; <span class="number">0</span>)</div><div class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</div><div class="line">    ch = getchar();</div><div class="line">    <span class="keyword">if</span>(tcsetattr(fd,TCSANOW,&amp;tm_old) &lt; <span class="number">0</span>)</div><div class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</div><div class="line">    <span class="keyword">return</span> ch;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>​    这个函数我并不理解，姑且放之，再等我继续学习吧。</p>
+<p>​    突然发现，这可能是第一篇关于学习的文章，太惨了，希望以后more and more.</p>
+<p>​    </p>
+<p>​    笔芯！！！</p>
+<p>​    <img src="/Users/zhangkemac/Desktop/笔芯.jpg" alt="笔芯"></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/C-C/" rel="tag"># C/C++</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/08/10/不否/" rel="next" title="不否">
+                <i class="fa fa-chevron-left"></i> 不否
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/bigcat.jpg"
+               alt="Janck" />
+          <p class="site-author-name" itemprop="name">Janck</p>
+           
+              <p class="site-description motion-element" itemprop="description">怕什么真理无穷，进一寸有一寸的欢喜</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/zhangke97" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://tobiaslee.top/" title="TobiasLee" target="_blank">TobiasLee</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.three7.cc/" title="three7" target="_blank">three7</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#本文部分（其实是绝大部分）代码来自-邓昭宇-如何用C语言做一个五子棋（Linux）"><span class="nav-number">1.</span> <span class="nav-text">本文部分（其实是绝大部分）代码来自 邓昭宇  : 如何用C语言做一个五子棋（Linux）</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Janck</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
